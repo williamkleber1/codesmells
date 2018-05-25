@@ -1,13 +1,14 @@
-import java.util.Scanner;
+package principal;
+
 
 public class Main extends Menu {
 	
 public static void main(String[] args) {
 		
-		
-		listOfUsers.add(new User("Victor", "1", "vhla@ic.ufal.br"));
+		User user1 = new User("Victor", "1", "vhla@ic.ufal.br");
+		listOfUsers.put("vhla@ic.ufal.br",user1);
 	
-		Scanner scanner = new Scanner(System.in);
+
 		int choice = 0;
 
 		do
@@ -22,14 +23,14 @@ public static void main(String[] args) {
 					userMenu(loggedUser);
 					break;
 				case 2:
-					listOfUsers = signUp(listOfUsers);
+					signUp(listOfUsers);
 					break;
 			}
 			
 			
 
 		}	while(choice != 99);
-		scanner.close();
+
 	}
 	
 

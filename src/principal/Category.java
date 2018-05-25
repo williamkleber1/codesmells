@@ -1,8 +1,8 @@
+package principal;
 
 public enum Category {
 	ART, COMICS, CRAFT,	DANCE, DESIGN,
  	FILM, FOOD,	GAMES, MUSIC, TECNOLOGY;
-
 	
 }
 /*

@@ -1,7 +1,8 @@
+package principal;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Found {
+public class Found extends Error{
 	private double goal;
 	private double donated;
 	private ArrayList<Double> founding;
@@ -61,14 +62,14 @@ public class Found {
 		scanner = new Scanner(System.in);
 		String description;
 		
-		goal = Error.returnDouble("Entre com a meta de arrecadacao: ");
+		goal = returnDouble("Entre com a meta de arrecadacao: ");
 		
 		System.out.println("Entre com as recompensas.");
 		
 		while(true)
 		{
-			value = Error.returnDouble("Valor: ");
-			scanner.nextLine();
+			value = returnDouble("Valor: ");
+			scanner.next();
 			
 			System.out.println("Descreva a recompensa: ");
 			description = scanner.nextLine();
@@ -79,7 +80,7 @@ public class Found {
 			System.out.print("Digite 1 para encerrar: ");
 			choice = scanner.nextInt();
 			
-			if (choice == 1) 
+			if(choice == 1) 
 				break;					
 		}
 		

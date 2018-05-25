@@ -1,4 +1,5 @@
-import java.util.ArrayList;
+package principal;
+import java.util.Map;
 import java.util.Scanner;
 
 
@@ -9,8 +10,8 @@ public class Project extends Error {
 	private Found found;
 	private static Scanner scanner;
 	
-	public Project(String projectName, Category category, String idea, Found found) 
-	{
+	
+	public Project(String projectName, Category category, String idea, Found found) {
 		super();
 		this.projectName = projectName;
 		this.category = category;
@@ -18,97 +19,54 @@ public class Project extends Error {
 		this.found = found;
 	}
 
-	public Category getCategory() 
-	{
+	public Category getCategory() {
 		return category;
 	}
 
-	public String getProjectName() 
-	{
+	public String getProjectName() {
 		return projectName;
 	}
 
-	public void setProjectName(String projectName) 
-	{
+	public void setProjectName(String projectName) {
 		this.projectName = projectName;
 	}
 
-	public String getIdea()
-	{
+	public String getIdea(){
 		return idea;
 	}
 
-	public void setIdea(String idea) 
-	{
+	public void setIdea(String idea) {
 		this.idea = idea;
 	}
 
+	public String toString() {
+		return this.getProjectName()+"\nIDEIA\n" + this.getIdea();
+		
+	}
+	
+	public static Category selectCategory(int choice)
+	{
+		Category[] allCategory = { Category.ART, Category.COMICS,
+				Category.CRAFT,Category.DANCE, Category.DESIGN, Category.FILM, 
+				Category.FOOD, Category.GAMES, Category.MUSIC, Category.TECNOLOGY};
+		
+		return allCategory[choice -1];
+				
+	}
+	
 	public static Category askCategory()
 	{
-		Category category;
-		int choice;
+		System.out.print("Categoria:\n1 - arte, 2 - quadrinhos, 3 - criação,"
+				+ "4 - dança, 5 - designe, 6 - filme, 7 - comida, 8 - jogos,"
+				+ "9 - musica, 10 - tecnologia.\n");
+		int choice = 0;
 		
-		while(true)
-		{
-			System.out.print("Categoria:\n1 - arte, 2 - quadrinhos, 3 - criação,"
-					+ "4 - dança, 5 - designe, 6 - filme, 7 - comida, 8 - jogos,"
-					+ "9 - musica, 10 - tecnologia.\n");
+		do {
 			choice = returnInt("Escolha: ");
+		}while(choice < 1 || choice > 10);
 			
-			if(choice == 1)
-			{
-				category = Category.ART;
-				break;
-			}
-			else if(choice == 2)
-			{
-				category = Category.COMICS;
-				break;
-			}
-			else if(choice == 3)
-			{
-				category = Category.CRAFT;
-				break;
-			}
-			else if(choice == 4)
-			{
-				category = Category.DANCE;
-				break;
-			}
-			else if(choice == 5)
-			{
-				category = Category.DESIGN;
-				break;
-			}
-			else if(choice == 6)
-			{
-				category = Category.FILM;
-				break;
-			}
-			else if(choice == 7)
-			{
-				category = Category.FOOD;
-				break;
-			}	
-			else if(choice == 8)
-			{
-				category = Category.GAMES;
-				break;
-			}	
-			else if(choice == 9)
-			{
-				category = Category.MUSIC;
-				break;
-			}	
-			else if(choice == 10)
-			{
-				category = Category.TECNOLOGY;
-				break;
-			}
-			
-		}
+		return selectCategory(choice);
 		
-		return category;
 	}
 	
 	public static String askIdea()
@@ -122,17 +80,20 @@ public class Project extends Error {
 		return idea;
 	}
 	
-	public static String askProjectName(ArrayList<User> listOfUsers)
+	public static String askProjectName( Map<String,User> listOfUsers)
 	{
 		scanner = new Scanner(System.in);
 		String projectName, tempName = "-";
 		System.out.print("Digite o nome do projeto: ");
 		projectName = scanner.nextLine();
 		
-		for (User user : listOfUsers) {
-			if(user.getProject() != null)
+		for (String key : listOfUsers.keySet()) {
+			User user = listOfUsers.get(key);
+			if(user.getProject() != null) {
 				if(projectName.equals(user.getProject().getProjectName()))
 					tempName = projectName;
+			}
+				
 		}
 		
 		while(projectName.equals(tempName))
@@ -144,11 +105,10 @@ public class Project extends Error {
 		return projectName;
 	}
 	
-	public static Project createProject(ArrayList<User> listOfUsers, User loggedUser)
+	public static Project createProject( Map<String,User> listOfUsers, User loggedUser)
 	{
 		Category category;
 		Project newProject;
-		scanner = new Scanner(System.in);
 		String idea;
 		String projectName;
 		Found found;
@@ -158,12 +118,11 @@ public class Project extends Error {
 		idea = askIdea();
 		found = Found.createFound();
 		newProject = new Project(projectName, category, idea, found);
-		
-//		scanner.close();
+
 		return newProject;
 	}
 	
-	public static ArrayList<User> searchProject(ArrayList<User> listOfUsers)
+	public static void searchProject(Map<String,User> listOfUsers)
 	{
 		System.out.print("MENU DE BUSCA\nEntre o nome do projeto: ");
 		int choice;
@@ -172,21 +131,20 @@ public class Project extends Error {
 		scanner = new Scanner(System.in);
 		String projectName = scanner.nextLine();
 		
-		for (User user : listOfUsers) {
+		for (String key : listOfUsers.keySet()) {
+			User user = listOfUsers.get(key);
+			
 			if(user.getProject() != null)
 				if(user.getProject().getProjectName().equals(projectName))
-				{
 					project = user.getProject();
-				}
 		}
 		
 		if(project == null)
 			System.out.println("Projeto nao encontrado.");
 		else
 		{
-			System.out.println(project.getProjectName());
-			System.out.println("\nIDEIA\n" + project.getIdea());
-			choice = Error.returnInt("Digite 1 para fazer uma doação: ");
+			project.toString();
+			choice = returnInt("Digite 1 para fazer uma doação: ");
 			
 			if(choice == 1)
 			{
@@ -196,13 +154,12 @@ public class Project extends Error {
 						" ou mais.\n" + project.found.getFoundingReward().get(i));
 				}
 				
-				donation = Error.returnDouble("Doar: ");
+				donation = returnDouble("Doar: ");
 				donated = project.found.getDonated();
 				donated += donation;
 				project.found.setDonated(donated);
 			}					
 		}		
-		return listOfUsers;
 	}
 	
 }

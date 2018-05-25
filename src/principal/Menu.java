@@ -1,35 +1,37 @@
-import java.util.ArrayList;
+package principal;
 import java.util.Scanner;
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class Menu extends Error{
 
-	public static ArrayList<User> listOfUsers = new ArrayList<User>();
+	static Map<String,User> listOfUsers = new HashMap<String,User>();
 	private static Scanner scanner;
 	
 	public static void userMenu(User loggedUser) {
-		
-		System.out.println("MENU DE USUARIO.\n1 - Criar projeto;\n2 - Buscar projeto"
-				+ "\n98 - sair.");
-		int choice = returnInt("Opcao: ");
-		
-		switch(choice){
-			case 1:
-				Project newProject = Project.createProject(listOfUsers, loggedUser); 
-				loggedUser.setProject(newProject);
-				break;
+		int choice =0;
+		do {
+			System.out.println("MENU DE USUARIO.\n1 - Criar projeto;\n2 - Buscar projeto"
+					+ "\n98 - sair.");
+			choice = returnInt("Opcao: ");
 			
-			case 2:
-				listOfUsers = Project.searchProject(listOfUsers);
-				break;
+			switch(choice){
+				case 1:
+					Project newProject = Project.createProject(listOfUsers, loggedUser); 
+					loggedUser.setProject(newProject);
+					break;
 				
-			case 98:
-				return;
-		}	
+				case 2:
+					Project.searchProject(listOfUsers);
+					break;
+					
+				case 98:
+					return;
+			}	
+		} while(choice!=98);
 	}
 	
-	public static User signIn( ArrayList<User> listOfUsers)
+	public static User signIn( Map<String,User> listOfUsers)
 	{
 		scanner = new Scanner(System.in);
 		String email, password;
@@ -39,19 +41,18 @@ public abstract class Menu extends Error{
 		System.out.print("Senha: ");
 		password = scanner.nextLine();
 		
-		for (User user : listOfUsers) {
-			if(user.getEmail().equals(email))
-			{
-				if(user.getPassword().equals(password))
-					return user;	
-			}
+		if(listOfUsers.containsKey(email)) {
+				if(listOfUsers.get(email).getPassword().equals(password))
+					return listOfUsers.get(email);	
 		}
 		
+		
 		System.out.println("Email ou senha não confere.");
-		return null;
+			return null;
+	
 	}
 	
-	public static ArrayList<User> signUp(ArrayList<User> listOfUsers)
+	public static void signUp(Map<String,User> listOfUsers)
 	{
 		System.out.println("MENU DE CADASTRO");
 		String email, name, password;
@@ -62,9 +63,8 @@ public abstract class Menu extends Error{
 		password = askPassword();
 		
 		newUser = new User(name, password, email);
-		listOfUsers.add(newUser);
+		listOfUsers.put(email,newUser);
 		
-		return listOfUsers;
 	}
 	
 	private static String askName()
@@ -85,19 +85,14 @@ public abstract class Menu extends Error{
 		return password;
 	}
 	
-	private static String askEmail(ArrayList<User> listOfUsers)
+	private static String askEmail(Map<String,User> listOfUsers)
 	{
 		scanner = new Scanner(System.in);
-		String email, tempEmail = "0";
+		String email;
 		System.out.print("Email: ");
 		email = scanner.nextLine();
 		
-		for (User user : listOfUsers) {
-			if(user.getEmail().equals(email))
-				tempEmail = email;
-		}
-		
-		while(email.equals(tempEmail))
+		while(listOfUsers.containsKey(email))
 		{
 			System.out.print("Email ja existe.\nEmail: ");
 			email = scanner.nextLine();
