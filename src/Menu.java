@@ -1,62 +1,108 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.HashMap;
+import java.util.Map;
 
-public class Menu {
+public abstract class Menu extends Error{
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		ArrayList<User> listOfUsers = new ArrayList<User>();
-		listOfUsers.add(new User("Victor", "1", "vhla@ic.ufal.br"));
-		int choice;
-		Project newProject;
-		Scanner scanner = new Scanner(System.in);
+	public static ArrayList<User> listOfUsers = new ArrayList<User>();
+	private static Scanner scanner;
+	
+	public static void userMenu(User loggedUser) {
 		
-		User loggedUser = null;
+		System.out.println("MENU DE USUARIO.\n1 - Criar projeto;\n2 - Buscar projeto"
+				+ "\n98 - sair.");
+		int choice = returnInt("Opcao: ");
 		
-		do
-		{			
-			if(loggedUser != null)
-			{
-				System.out.println("MENU DE USUARIO.\n1 - Criar projeto;\n2 - Buscar projeto"
-						+ "\n98 - sair.");
-				choice = Error.returnInt("Opcao: ");
-//				scanner.nextLine();
-				
-				switch(choice)
-				{
-				case 1:
-					newProject = Project.createProject(listOfUsers, loggedUser); 
-					loggedUser.setProject(newProject);
-					break;
-				
-				case 2:
-					listOfUsers = Project.searchProject(listOfUsers);
-					break;
-				case 98:
-					loggedUser = null;
-					break;
-				}				
-			}
-			else
-			{
-				System.out.println("1 - entrar, 2 - cadastrar, 99 - encerrar");
-				choice = Error.returnInt("Opcao: ");
+		switch(choice){
+			case 1:
+				Project newProject = Project.createProject(listOfUsers, loggedUser); 
+				loggedUser.setProject(newProject);
+				break;
 			
-				switch(choice)
-				{
-				case 1:
-					loggedUser = User.signIn(listOfUsers);
-					break;
-				case 2:
-					listOfUsers = User.signUp(listOfUsers);
-					break;
-				}
+			case 2:
+				listOfUsers = Project.searchProject(listOfUsers);
+				break;
+				
+			case 98:
+				return;
+		}	
+	}
+	
+	public static User signIn( ArrayList<User> listOfUsers)
+	{
+		scanner = new Scanner(System.in);
+		String email, password;
+		
+		System.out.print("Email: ");
+		email = scanner.nextLine();
+		System.out.print("Senha: ");
+		password = scanner.nextLine();
+		
+		for (User user : listOfUsers) {
+			if(user.getEmail().equals(email))
+			{
+				if(user.getPassword().equals(password))
+					return user;	
 			}
+		}
+		
+		System.out.println("Email ou senha não confere.");
+		return null;
+	}
+	
+	public static ArrayList<User> signUp(ArrayList<User> listOfUsers)
+	{
+		System.out.println("MENU DE CADASTRO");
+		String email, name, password;
+		User newUser;
+		
+		email = askEmail(listOfUsers);
+		name = askName();
+		password = askPassword();
+		
+		newUser = new User(name, password, email);
+		listOfUsers.add(newUser);
+		
+		return listOfUsers;
+	}
+	
+	private static String askName()
+	{
+		scanner = new Scanner(System.in);
+		System.out.print("Nome: ");
+		String name = scanner.nextLine();		
+		
+		return name;
+	}
 
-		}while(choice != 99);
-		scanner.close();
+	private static String askPassword()
+	{
+		 scanner = new Scanner(System.in);
+		System.out.print("Senha: ");
+		String password = scanner.nextLine();		
+		
+		return password;
+	}
+	
+	private static String askEmail(ArrayList<User> listOfUsers)
+	{
+		scanner = new Scanner(System.in);
+		String email, tempEmail = "0";
+		System.out.print("Email: ");
+		email = scanner.nextLine();
+		
+		for (User user : listOfUsers) {
+			if(user.getEmail().equals(email))
+				tempEmail = email;
+		}
+		
+		while(email.equals(tempEmail))
+		{
+			System.out.print("Email ja existe.\nEmail: ");
+			email = scanner.nextLine();
+		}
+		
+		return email;
 	}
 }

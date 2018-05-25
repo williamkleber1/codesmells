@@ -2,11 +2,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
-public class Project {
+public class Project extends Error {
 	private String projectName;
 	private Category category;
 	private String idea;
 	private Found found;
+	private static Scanner scanner;
 	
 	public Project(String projectName, Category category, String idea, Found found) 
 	{
@@ -45,7 +46,6 @@ public class Project {
 	public static Category askCategory()
 	{
 		Category category;
-		Scanner scanner = new Scanner(System.in);
 		int choice;
 		
 		while(true)
@@ -53,7 +53,7 @@ public class Project {
 			System.out.print("Categoria:\n1 - arte, 2 - quadrinhos, 3 - criação,"
 					+ "4 - dança, 5 - designe, 6 - filme, 7 - comida, 8 - jogos,"
 					+ "9 - musica, 10 - tecnologia.\n");
-			choice = Error.returnInt("Escolha: ");
+			choice = returnInt("Escolha: ");
 			
 			if(choice == 1)
 			{
@@ -114,7 +114,7 @@ public class Project {
 	public static String askIdea()
 	{
 		String idea;
-		Scanner	scanner = new Scanner(System.in);
+		scanner = new Scanner(System.in);
 		
 		System.out.print("Entre sua ideia: ");
 		idea = scanner.nextLine();
@@ -124,7 +124,7 @@ public class Project {
 	
 	public static String askProjectName(ArrayList<User> listOfUsers)
 	{
-		Scanner scanner = new Scanner(System.in);
+		scanner = new Scanner(System.in);
 		String projectName, tempName = "-";
 		System.out.print("Digite o nome do projeto: ");
 		projectName = scanner.nextLine();
@@ -148,7 +148,7 @@ public class Project {
 	{
 		Category category;
 		Project newProject;
-		Scanner scanner = new Scanner(System.in);
+		scanner = new Scanner(System.in);
 		String idea;
 		String projectName;
 		Found found;
@@ -169,7 +169,7 @@ public class Project {
 		int choice;
 		double donation, donated;
 		Project project = null;
-		Scanner scanner = new Scanner(System.in);
+		scanner = new Scanner(System.in);
 		String projectName = scanner.nextLine();
 		
 		for (User user : listOfUsers) {

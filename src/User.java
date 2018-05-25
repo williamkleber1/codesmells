@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-import java.util.Scanner;
 
 public class User {
 	
@@ -55,87 +53,5 @@ public class User {
 		this.email = email;
 	}
 
-	private static String askEmail(ArrayList<User> listOfUsers)
-	{
-		Scanner scanner = new Scanner(System.in);
-		String email, tempEmail = "0";
-		System.out.print("Email: ");
-		email = scanner.nextLine();
-		
-		for (User user : listOfUsers) {
-			if(user.email.equals(email))
-				tempEmail = email;
-		}
-		
-		while(email.equals(tempEmail))
-		{
-			System.out.print("Email ja existe.\nEmail: ");
-			email = scanner.nextLine();
-		}
-		
-//		scanner.close();
-		return email;
-	}
 	
-	private static String askName()
-	{
-		Scanner scanner = new Scanner(System.in);
-		System.out.print("Nome: ");
-		String name = scanner.nextLine();		
-		
-//		scanner.close();
-		return name;
-	}
-
-	private static String askPassword()
-	{
-		Scanner scanner = new Scanner(System.in);
-		System.out.print("Senha: ");
-		String password = scanner.nextLine();		
-		
-//		scanner.close();
-		return password;
-	}
-	
-	public static ArrayList<User> signUp(ArrayList<User> listOfUsers)
-	{
-		System.out.println("MENU DE CADASTRO");
-		String email, name, password;
-		User newUser;
-		
-		email = askEmail(listOfUsers);
-		name = askName();
-		password = askPassword();
-		
-		newUser = new User(name, password, email);
-		listOfUsers.add(newUser);
-		
-		return listOfUsers;
-	}
-	
-	public static User signIn( ArrayList<User> listOfUsers)
-	{
-		Scanner scanner = new Scanner(System.in);
-		String email, password;
-		
-		System.out.print("Email: ");
-		email = scanner.nextLine();
-		System.out.print("Senha: ");
-		password = scanner.nextLine();
-		
-		for (User user : listOfUsers) {
-			if(user.email.equals(email))
-			{
-				if(user.password.equals(password))
-				{
-				//	scanner.close();
-					return user;	
-				}
-			}
-		}
-		
-		System.out.println("Email ou senha não confere.");
-//		scanner.close();
-		return null;
-	}
 }

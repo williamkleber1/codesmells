@@ -6,6 +6,7 @@ public class Found {
 	private double donated;
 	private ArrayList<Double> founding;
 	private ArrayList<String> foundingReward;
+	private static Scanner scanner;
 	
 	public Found(double goal, double donated, ArrayList<Double> founding,
 			ArrayList<String> foundingReward) 
@@ -57,7 +58,7 @@ public class Found {
 		double donated = 0.0, goal, value;
 		Found newFound;		
 		int choice;
-		Scanner scanner = new Scanner(System.in);
+		scanner = new Scanner(System.in);
 		String description;
 		
 		goal = Error.returnDouble("Entre com a meta de arrecadacao: ");

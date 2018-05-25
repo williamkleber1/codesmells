@@ -2,11 +2,13 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
-public class Error {
+public abstract class Error {
 	
+	private static Scanner scanner;
+
 	public static int returnInt(String value)
 	{
-		Scanner scanner = new Scanner(System.in);
+		scanner = new Scanner(System.in);
 		int choice;
 		while(true)
 		{
@@ -28,7 +30,7 @@ public class Error {
 	
 	public static double returnDouble(String value)
 	{
-		Scanner scanner = new Scanner(System.in);
+		scanner = new Scanner(System.in);
 		double choice;
 		while(true)
 		{
